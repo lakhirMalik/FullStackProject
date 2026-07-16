@@ -46,7 +46,4 @@ Open `http://localhost:5173` in your browser — it redirects to `/login`.
 5. Try visiting `/dashboard` directly while logged out → `ProtectedRoute` blocks it and redirects to `/login`
 6. While logged in, try visiting `/login` directly → `PublicOnlyRoute` blocks it and redirects to `/dashboard`
 
-## For your FYP report
 
-This structure demonstrates the full authentication lifecycle end-to-end:
-`Register → Login (JWT issued) → Protected API call (JWT verified by middleware) → Frontend route guarding (React Context + interceptors) → Logout`
