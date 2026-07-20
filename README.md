@@ -47,3 +47,11 @@ Open `http://localhost:5173` in your browser — it redirects to `/login`.
 6. While logged in, try visiting `/login` directly → `PublicOnlyRoute` blocks it and redirects to `/dashboard`
 
 
+## Security & Real-Time Features
+
+- **Rate limiting** (`express-rate-limit`) — login route limited to prevent brute-force attacks; general API rate limiting also applied
+- **Helmet** — sets secure HTTP headers
+- **CORS** — configured to only allow requests from the frontend (`localhost:5173`)
+- **Morgan** — logs incoming HTTP requests for debugging
+- **Cookie-parser** — parses cookies on incoming requests
+- **Socket.io** — real-time bidirectional communication between client and server; emits a `userLoggedIn` event on successful login, shown live on the Dashboard's "Live Activity" feed
