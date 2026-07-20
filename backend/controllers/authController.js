@@ -56,6 +56,10 @@ exports.login = async (req, res) => {
       expiresIn: '1d',
     });
 
+    // Notify connected clients in real time via Socket.io
+    const io = req.app.locals.io;
+    io.emit('userLoggedIn', { email: user.email, time: new Date() });
+
     res.status(200).json({
       message: 'Login successful',
       token,
