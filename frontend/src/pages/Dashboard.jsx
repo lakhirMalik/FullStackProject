@@ -57,6 +57,9 @@ export default function Dashboard() {
       {error && <p className="error">{error}</p>}
 
       <button onClick={handleLogout}>Logout</button>
+      <button onClick={() => navigate('/chat')} style={{ marginLeft: '0.5rem' }}>
+        💬 Chat with AI
+      </button>
 
       <div style={{ marginTop: '1.5rem' }}>
         <h4>Live Activity</h4>
