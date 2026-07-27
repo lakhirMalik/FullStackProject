@@ -11,7 +11,8 @@ const { Server } = require('socket.io');
 const authRoutes = require('./routes/authRoutes');
 const { loginLimiter } = require("./controllers/LimitSecure/ExpressLimit.js");
 const chatRoutes = require('./routes/chat.js');
-
+const contentRoutes = require('./routes/contentRoutes.js');
+const userRoutes = require('./routes/User/User.js');
 
 dotenv.config();
 
@@ -93,7 +94,11 @@ app.use(cookieParser());
 
 app.use('/api/auth/login', loginLimiter);
 
-app.use("/api/chat", chatRoutes);
+app.use('/api/chat', chatRoutes);
+app.use('/api/content', contentRoutes);
+
+app.use('/api/roles', userRoutes);
+
 
 
 

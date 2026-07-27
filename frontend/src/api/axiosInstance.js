@@ -7,44 +7,39 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true, // required so the browser sends/receives httpOnly cookies
 });
 
 // ─────────────────────────────────────────────
-// REQUEST INTERCEPTOR — runs before every request is sent.
-// Automatically attaches the JWT token, if one exists.
+// REQUEST INTERCEPTOR
+// Nothing to attach manually — cookies are sent automatically.
 // ─────────────────────────────────────────────
 api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
+  (config) => config,
   (error) => Promise.reject(error)
 );
 
 // ─────────────────────────────────────────────
-// RESPONSE INTERCEPTOR — runs on every response before
-// it reaches your .then()/.catch() or try/catch block.
+// RESPONSE INTERCEPTOR
+// Token refresh now happens automatically inside the backend's
+// verifyToken middleware — if we still get a 401 here, it means
+// BOTH the access token and refresh token are invalid/expired,
+// so there's nothing left to do except log the user out.
 // ─────────────────────────────────────────────
 api.interceptors.response.use(
   (response) => response,
   (error) => {
     const status = error.response?.status;
 
-    if (status === 401) {
-      // Token missing, invalid, or expired
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
+    if (!error.response) {
+      console.error('Network error — is the backend server running?');
+      return Promise.reject(error);
+    }
 
+    if (status === 401) {
       if (window.location.pathname !== '/login') {
         window.location.href = '/login';
       }
-    }
-
-    if (!error.response) {
-      console.error('Network error — is the backend server running?');
     }
 
     return Promise.reject(error);

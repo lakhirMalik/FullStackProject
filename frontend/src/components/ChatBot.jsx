@@ -42,7 +42,7 @@ export default function ChatBot() {
 
   return (
     <div style={{ border: "1px solid #ccc", borderRadius: 8, padding: 16, maxWidth: 500 }}>
-      <h3 style={{ marginTop: 0 }}>💬 AI Chatbot (Gemini)</h3>
+      <h3 style={{ marginTop: 0 }}>💬 AI Chatbot </h3>
 
       <div style={{ height: 300, overflowY: "auto", border: "1px solid #eee", padding: 8 }}>
         {messages.map((m, i) => (

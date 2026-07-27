@@ -4,6 +4,7 @@ import { registerUser } from '../api/authService';
 
 export default function Register() {
   const [name, setName] = useState('');
+  const [role, setRole] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
@@ -11,12 +12,13 @@ export default function Register() {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
+    console.log('Form submitted with:', { name, email, password, role });
     e.preventDefault();
     setError('');
     setMessage('');
 
     try {
-      const data = await registerUser(name, email, password);
+      const data = await registerUser(name, email, password, role);
       setMessage(data.message);
       setTimeout(() => navigate('/login'), 1200);
     } catch (err) {
@@ -28,6 +30,13 @@ export default function Register() {
     <div className="auth-container">
       <h2>Register</h2>
       <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Role"
+          value={role}
+          onChange={(e) => setRole(e.target.value)}
+          required
+        />
         <input
           type="text"
           placeholder="Name"

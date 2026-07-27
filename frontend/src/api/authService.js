@@ -1,7 +1,7 @@
 import api from './axiosInstance';
 
-export const registerUser = async (name, email, password) => {
-  const res = await api.post('/auth/register', { name, email, password });
+export const registerUser = async (name, email, password, role) => {
+  const res = await api.post('/auth/register', { name, email, password, role });
   return res.data;
 };
 
@@ -9,7 +9,7 @@ export const loginUser = async (email, password) => {
   const res = await api.post('/auth/login', { email, password });
 
   if (res.data.token) {
-    localStorage.setItem('token', res.data.token);
+    // localStorage.setItem('token', res.data.token);
     localStorage.setItem('user', JSON.stringify(res.data.user));
   }
 
@@ -26,8 +26,10 @@ export const resetPassword = async (token, newPassword) => {
   return res.data;
 };
 
-export const logoutUser = () => {
-  localStorage.removeItem('token');
+export const logoutUser = async () => {
+  // localStorage.removeItem('token');
+  // localStorage.removeItem('user');
+  await api.post('/auth/logout'); // Call the backend to clear the cookie
   localStorage.removeItem('user');
 };
 

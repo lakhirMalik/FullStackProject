@@ -1,3 +1,4 @@
+import { Link} from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getProfile } from '../api/authService';
 import { useAuth } from '../context/AuthContext';
@@ -37,39 +38,46 @@ export default function Dashboard() {
     };
   }, []);
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     navigate('/login');
   };
 
   return (
-    <div className="auth-container">
-      <h2>Dashboard</h2>
-      <p>Welcome, {user?.name}!</p>
+  <div className="auth-container">
+    <nav style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
+      <Link to="/">Home</Link>
+      <Link to="/about">About</Link>
+      <Link to="/dashboard">Dashboard</Link>
+      <Link to="/chat">Chat</Link>
+    </nav>
 
-      {profile && (
-        <div>
-          <p>Email: {profile.email}</p>
-          <p>Joined: {new Date(profile.createdAt).toLocaleDateString()}</p>
-        </div>
-      )}
+    <h2>Dashboard</h2>
+    <p>Welcome, {user?.name}!</p>
 
-      {error && <p className="error">{error}</p>}
-
-      <button onClick={handleLogout}>Logout</button>
-      <button onClick={() => navigate('/chat')} style={{ marginLeft: '0.5rem' }}>
-        💬 Chat with AI
-      </button>
-
-      <div style={{ marginTop: '1.5rem' }}>
-        <h4>Live Activity</h4>
-        {liveEvents.length === 0 && <p style={{ color: '#888' }}>No activity yet</p>}
-        <ul>
-          {liveEvents.map((msg, i) => (
-            <li key={i}>{msg}</li>
-          ))}
-        </ul>
+    {profile && (
+      <div>
+        <p>Email: {profile.email}</p>
+        <p>Joined: {new Date(profile.createdAt).toLocaleDateString()}</p>
       </div>
+    )}
+
+    {error && <p className="error">{error}</p>}
+
+    <button onClick={handleLogout}>Logout</button>
+    <button onClick={() => navigate('/chat')} style={{ marginLeft: '0.5rem' }}>
+      💬 Chat with AI
+    </button>
+
+    <div style={{ marginTop: '1.5rem' }}>
+      <h4>Live Activity</h4>
+      {liveEvents.length === 0 && <p style={{ color: '#888' }}>No activity yet</p>}
+      <ul>
+        {liveEvents.map((msg, i) => (
+          <li key={i}>{msg}</li>
+        ))}
+      </ul>
     </div>
-  );
+  </div>
+);
 }
